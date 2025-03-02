@@ -1,0 +1,32 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_binary",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+# (executable
+#  (name gen_c_primitives)
+#  (libraries dune-configurator)
+#  (modules gen_c_primitives))
+
+ocaml_binary(
+    name = "gen_c_primitives",
+    main = ":Gen_c_primitives"
+)
+
+#############
+ocaml_module(
+    name          = "Gen_c_primitives",
+    struct        = "gen_c_primitives.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        "@dune-configurator//lib/dune-configurator"
+    ],
+)

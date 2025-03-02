@@ -1,0 +1,34 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "libSigset",
+    manifest   = [
+        ":Sigset"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Sigset",
+    struct        = "sigset.ml",
+    sig           = ":Sigset_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Sigset_cmi",
+    src           = "sigset.mli",
+    opts          = OPTS_SIG,
+)
+

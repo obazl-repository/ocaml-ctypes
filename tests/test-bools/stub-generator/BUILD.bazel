@@ -1,0 +1,77 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_binary",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+ocaml_library(
+    name = "test_bools_bindings",
+    manifest = [":Generated_bindings"]
+)
+
+ocaml_module(
+    name = "Generated_bindings",
+    struct = "generated_bindings.ml",
+    deps   = ["//src/ctypes:Cstubs_internals"],
+    cc_deps = [":generated_stubs"]
+)
+
+genrule(
+    name = "genml",
+    outs = ["generated_bindings.ml"],
+    cmd  = " ".join([
+        "$(execpath :driver)",
+        "--ml-file",
+        "$(location generated_bindings.ml)"
+    ]),
+    tools = [":driver"]
+)
+
+cc_library(
+    name = "generated_stubs",
+    srcs = [":generated_stubs.c"],
+    copts = ["-Itests/clib", "-Isrc/ctypes"],
+    deps = [
+        "@ocaml//lib/sdk",
+        "//src/ctypes:ctypes.stubs",
+        "//tests/clib:test_funcs"
+    ]
+)
+
+genrule(
+    name = "genc",
+    outs = ["generated_stubs.c"],
+    cmd  = " ".join([
+        "$(execpath :driver)",
+        "--c-file",
+        "$(location generated_stubs.c)"
+    ]),
+    tools = [":driver"]
+)
+
+##############
+ocaml_binary(
+    name     = "driver",
+    main   =":Driver",
+    opts = ["-cclib", "-lffi"] # uses system libffi
+)
+
+#############
+ocaml_module(
+    name          = "Driver",
+    struct        = "driver.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        # "//src/ctypes",
+        "//tests/test-bools/stubs:test_bools_stubs",
+        "//tests/tests-common:Tests_common",
+    ]
+)
+

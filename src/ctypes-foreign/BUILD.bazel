@@ -1,0 +1,208 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "ctypes-foreign",
+    manifest   = [
+        ":Ctypes_closure_properties",
+        ":Ctypes_ffi",
+        ":Ctypes_weak_ref",
+        ":Ctypes_ffi_stubs",
+        ":Ctypes_foreign_basis",
+        # ":Ctypes_foreign_threaded_stubs",
+        ":Dl",
+        ":Foreign",
+        ":Libffi_abi"
+    ],
+    cc_deps = [
+        # "@libffi//:libffi",
+        ":ctypes_foreign.stubs"
+    ],
+    opts = ["-cclib", "-ffi"]
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Ctypes_closure_properties",
+    struct        = "ctypes_closure_properties.ml",
+    sig           = ":Ctypes_closure_properties_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Ctypes_closure_properties_cmi",
+    src           = "ctypes_closure_properties.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_ffi",
+    struct        = "ctypes_ffi.ml",
+    sig           = ":Ctypes_ffi_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        "//src/ctypes:Ctypes",
+        "//src/ctypes:Ctypes_memory",
+        "//src/ctypes:Ctypes_ptr",
+        "//src/ctypes:Ctypes_type_printing",
+        ":Ctypes_ffi_stubs",
+        ":Ctypes_weak_ref",
+        ":Libffi_abi"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_ffi_cmi",
+    src           = "ctypes_ffi.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        "//src/ctypes:Ctypes_static_cmi",
+        ":Libffi_abi_cmi"
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_weak_ref",
+    struct        = "ctypes_weak_ref.ml",
+    sig           = ":Ctypes_weak_ref_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Ctypes_weak_ref_cmi",
+    src           = "ctypes_weak_ref.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "Dl",
+    sig           = ":Dl_cmi",
+    struct        = select({
+        "@platforms//os:windows": "dl.ml.win",
+        "//conditions:default":   "dl.ml.unix"
+    }),
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Dl_cmi",
+    src           = "dl.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "Foreign",
+    struct        = "foreign.ml",
+    sig           = ":Foreign_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        "@ocaml//lib/threads",
+        # "@threads//lib/threads",
+        ":Ctypes_closure_properties",
+        ":Ctypes_foreign_basis",
+        ":Ctypes_foreign_threaded_stubs"
+    ],
+)
+
+ocaml_signature(
+    name          = "Foreign_cmi",
+    src           = "foreign.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        ":Dl_cmi",
+        ":Libffi_abi"
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_ffi_stubs",
+    struct        = "ctypes_ffi_stubs.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "//src/ctypes:Ctypes_primitive_types",
+        "//src/ctypes:Ctypes_ptr",
+        "//src/ctypes:Ctypes_static"
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_foreign_basis",
+    struct        = "ctypes_foreign_basis.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_ffi",
+        ":Ctypes_ffi_stubs",
+        ":Dl"
+    ],
+)
+
+#############
+ocaml_module( # dune: private_modules
+    name          = "Ctypes_foreign_threaded_stubs",
+    struct        = "ctypes_foreign_threaded_stubs.ml",
+    opts          = OPTS_MODULE,
+)
+
+#############
+ocaml_module(
+    name          = "Libffi_abi",
+    sig           = ":Libffi_abi_cmi",
+    struct        = select({
+        "@platforms//os:macos": "libffi_abi.macos_arm.ml",
+        "//conditions:default": "libffi_abi.default.ml",
+    }),
+    opts          = OPTS_MODULE,
+    deps          = [
+        "//src/ctypes:Ctypes"
+    ]
+)
+
+ocaml_signature(
+    name          = "Libffi_abi_cmi",
+    src           = "libffi_abi.mli",
+    opts          = OPTS_SIG,
+)
+
+################################################################
+cc_library(
+    name = "ctypes_foreign.stubs",
+    linkstatic = True,
+    srcs = [
+        "ffi_call_stubs.c",
+        "ffi_type_stubs.c",
+        "foreign_threaded_stubs.c"
+    ] + select({
+        "@platforms//os:windows": ["dl_stubs.win.c"],
+        "//conditions:default"  : ["dl_stubs.unix.c"],
+    }),
+    linkopts = [
+        "-lffi",
+        # "-mmacos-version-min=14.0"
+    ],
+    # env = {"MACOSX_DEPLOYMENT_TARGET": "14.0"},
+    deps = [
+        # by default will use system-installed libffi?
+        # "@libffi//:libffi",
+        "@ocaml//lib/sdk",
+        "//src/ctypes:ctypes.stubs"
+    ],
+)

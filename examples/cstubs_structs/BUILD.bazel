@@ -1,0 +1,50 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+
+##############
+ocaml_library(
+    name     = "libCstubs_structs",
+    manifest   = [
+        ":Bindings",
+        ":Bindings_c_gen",
+        ":Main",
+        ":Myocamlbuild"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Bindings",
+    struct        = "bindings.ml",
+    opts          = OPTS_MODULE,
+)
+
+#############
+ocaml_module(
+    name          = "Bindings_c_gen",
+    struct        = "bindings_c_gen.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Bindings"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Main",
+    struct        = "main.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Bindings"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Myocamlbuild",
+    struct        = "myocamlbuild.ml",
+    opts          = OPTS_MODULE,
+)
+

@@ -1,0 +1,22 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+
+
+##############
+ocaml_library(
+    name     = "libTest_coercions",
+    manifest   = [
+        ":Test_coercions"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Test_coercions",
+    struct        = "test_coercions.ml",
+    opts          = OPTS_MODULE,
+)
+

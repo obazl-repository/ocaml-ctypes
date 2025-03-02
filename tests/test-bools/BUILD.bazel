@@ -1,0 +1,37 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+     "ocaml_test"
+)
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+
+##############
+ocaml_test(
+    name    = "test_bools",
+    main    = ":Test_bools",
+    opts = ["-cclib", "-lffi"],
+    timeout = "short",
+    data = ["//tests/clib:clib.so"], # for dlopen
+)
+
+#############
+ocaml_module(
+    name          = "Test_bools",
+    struct        = "test_bools.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "@ounit2//lib/ounit2",
+        "//src/ctypes",
+        "//src/ctypes-foreign:Dl",
+        "//src/cstubs",
+        "//tests/test-bools/stubs:test_bools_stubs",
+        "//tests/test-bools/stub-generator:test_bools_bindings",
+        "//tests/tests-common:Tests_common",
+    ],
+)
+

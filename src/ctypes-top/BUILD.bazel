@@ -1,0 +1,55 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_ns_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_ns_library(
+    name     = "ctypes.top",
+    manifest   = [
+        ":Ctypes_printers",
+        ":Install_ctypes_printers"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_printers",
+    struct        = "ctypes_printers.ml",
+    sig           = ":Ctypes_printers_cmi",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "//src/ctypes:libCtypes",
+        # "//src/ctypes:PosixTypes_cmi"
+    ]
+)
+
+ocaml_signature(
+    name          = "Ctypes_printers_cmi",
+    src           = "ctypes_printers.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        # "//src/ctypes",
+        "//src/ctypes:Ctypes_cmi",
+        "//src/ctypes:PosixTypes_cmi"
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Install_ctypes_printers",
+    struct        = "install_ctypes_printers.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "@ocaml//lib/compiler-libs/toplevel",
+        ":Ctypes_printers"
+    ]
+)
+

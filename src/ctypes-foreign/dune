@@ -1,5 +1,5 @@
 (rule
- (copy# "dl_stubs.c.%{read-lines:backend.sexp}" dl_stubs.c))
+ (copy# "dl_stubs.%{read-lines:backend.sexp}.c" dl_stubs.c))
 
 (rule
  (copy# "dl.ml.%{read-lines:backend.sexp}" dl.ml))

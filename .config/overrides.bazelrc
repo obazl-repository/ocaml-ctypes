@@ -1,0 +1,13 @@
+# common --override_module=dune_s7=/Users/gar/libs7/dune_s7
+# common --override_module=libs7=/Users/gar/libs7/libs7
+# common --override_module=findlibc=/Users/gar/obazl/findlibc
+# common --override_module=opamc=/Users/gar/obazl/opamc
+
+common --override_module=rules_ocaml=/Users/gar/obazl/rules_ocaml
+
+# common --override_module=obazl=/Users/gar/obazl/tools_obazl
+# common --override_module=mibl=/Users/gar/obazl/mibl
+
+# common --override_module=tools_ocaml=/Users/gar/obazl/tools_ocaml
+
+# common --override_module=coswitch=/Users/gar/obazl/coswitch

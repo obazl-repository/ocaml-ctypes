@@ -1,0 +1,32 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "libStub_generation",
+    manifest   = [
+        ":Date_cmd"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Date_cmd",
+    struct        = "date_cmd.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "@ctypes//lib/ctypes",
+        "//examples/date/stub-generation/bindings:libBindings"
+    ]
+)
+

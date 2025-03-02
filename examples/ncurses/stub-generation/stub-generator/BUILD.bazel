@@ -1,0 +1,20 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+
+##############
+ocaml_library(
+    name     = "libStub_generator",
+    manifest   = [
+        ":Ncurses_stub_generator"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Ncurses_stub_generator",
+    struct        = "ncurses_stub_generator.ml",
+    opts          = OPTS_MODULE,
+)
+

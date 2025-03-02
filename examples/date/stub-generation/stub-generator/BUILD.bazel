@@ -1,0 +1,50 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_binary",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+ocaml_binary(
+    name = "date_stub_generator",
+    main = ":Date_stub_generator"
+)
+
+genrule(
+    name = "genstubs",
+    outs = ["date_stubs.c", "date_generated.ml"],
+    tools = [":date_stub_generator"],
+    cmd   = "\n".join([
+        "$(execpath :date_stub_generator);",
+        "cp -v date_stubs.c $(RULEDIR)/",
+        "cp -v date_generated.ml $(RULEDIR)/"
+    ])
+)
+
+ocaml_module(
+    name          = "Date_stub_generator",
+    struct        = "date_stub_generator.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "@ctypes//lib/ctypes",
+        "@ctypes//lib/stubs",
+        "//examples/date/stub-generation/bindings:Date_stubs"
+    ]
+)
+
+################################################################
+cc_library(
+    name = "date_stubs",
+    srcs = [":date_stubs.c"],
+    deps = [
+        # "@ocaml//lib/sdk",
+        "@ctypes//lib/ctypes",
+        "@ctypes//lib/ctypes:hdrs"
+    ],
+)

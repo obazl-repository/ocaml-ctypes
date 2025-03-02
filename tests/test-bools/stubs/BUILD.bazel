@@ -1,0 +1,33 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+# (library
+#  (name test_bools_stubs)
+#  (wrapped false)
+#  (libraries ctypes))
+
+##############
+ocaml_library(
+    name     = "test_bools_stubs",
+    manifest   = [
+        ":Functions"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Functions",
+    struct        = "functions.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "//src/ctypes"
+    ]
+)
+

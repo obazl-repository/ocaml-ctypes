@@ -1,0 +1,60 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+
+
+##############
+ocaml_library(
+    name     = "libBench_micro",
+    manifest   = [
+        ":Bench_micro",
+        ":Bench_micro_bindings",
+        ":Bench_micro_gen",
+        ":Process_summary"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Bench_micro",
+    struct        = "bench_micro.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Bench_micro_bindings"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Bench_micro_bindings",
+    struct        = "bench_micro_bindings.ml",
+    opts          = OPTS_MODULE,
+)
+
+#############
+ocaml_module(
+    name          = "Bench_micro_gen",
+    struct        = "bench_micro_gen.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Bench_micro_bindings"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Process_summary",
+    struct        = "process_summary.ml",
+    opts          = OPTS_MODULE,
+)
+
+################################################################
+cc_library(
+    name = "FIXME.stubs",
+    linkstatic = True,
+    srcs = ["bench_micro_lib.c", "bench_micro_stubs.c", "bench_micro_stubs.h"],
+    deps = ["@ocaml//c"],
+    copts = ["-I", "external/ocaml/c"]
+)

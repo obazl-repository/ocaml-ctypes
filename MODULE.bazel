@@ -1,0 +1,34 @@
+module(
+    name = "ocaml-ctypes",
+    version = "1.0.0",
+    compatibility_level = 1,
+)
+
+## bcr:
+bazel_dep(name = "platforms",        version = "0.0.8")
+bazel_dep(name = "bazel_skylib",     version = "1.5.0")
+bazel_dep(name = "rules_cc",         version = "0.0.9")
+
+## obazl:
+# bazel_dep(name = "cc_config",      version = "1.0.0")
+bazel_dep(name = "rules_ocaml",      version = "2.1.0")
+bazel_dep(name = "obazl_tools_cc", version = "2.0.0",
+          dev_dependency = True)
+
+bazel_dep(name = "rules_foreign_cc", version = "0.9.0")
+bazel_dep(name = "libffi",           version = "3.4.4")
+
+# bazel_dep(name = "obazl",          version = "1.0.0")
+
+bazel_dep(name = "ocaml",           version = "0.0.0")
+register_toolchains("@ocaml//toolchain/selectors/local:all")
+register_toolchains("@ocaml//toolchain/profiles:all")
+
+bazel_dep(name = "ctypes",           version = "0.0.0")
+bazel_dep(name = "ctypes-foreign",   version = "0.0.0")
+
+bazel_dep(name = "bigarray-compat",  version = "0.0.0")
+bazel_dep(name = "dune-configurator",version = "0.0.0")
+bazel_dep(name = "integers",         version = "0.0.0")
+bazel_dep(name = "ounit2",           version = "0.0.0")
+# bazel_dep(name = "threads",          version = "0.0.0")

@@ -1,0 +1,235 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "cstubs",
+    manifest   = [
+        ":Cstubs",
+        ":Cstubs_analysis",
+        ":Cstubs_errors",
+        ":Cstubs_generate_c",
+        ":Cstubs_generate_ml",
+        ":Cstubs_inverted",
+        ":Cstubs_public_name",
+        ":Cstubs_structs",
+        ":Ctypes_path",
+        ":Cstubs_c_language",
+        ":Cstubs_emit_c"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Cstubs",
+    struct        = "cstubs.ml",
+    sig           = ":Cstubs_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Cstubs_generate_c",
+        ":Cstubs_generate_ml",
+        ":Cstubs_structs"
+    ],
+)
+
+ocaml_signature(
+    name          = "Cstubs_cmi",
+    src           = "cstubs.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        "//src/ctypes:Ctypes_cmi"
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_analysis",
+    struct        = "cstubs_analysis.ml",
+    sig           = ":Cstubs_analysis_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Cstubs_analysis_cmi",
+    src           = "cstubs_analysis.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        "//src/ctypes:Ctypes_static_cmi"
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_errors",
+    struct        = "cstubs_errors.ml",
+    sig           = ":Cstubs_errors_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Cstubs_errors_cmi",
+    src           = "cstubs_errors.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_generate_c",
+    struct        = "cstubs_generate_c.ml",
+    sig           = ":Cstubs_generate_c_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Cstubs_c_language",
+        ":Cstubs_emit_c"
+    ],
+)
+
+ocaml_signature(
+    name          = "Cstubs_generate_c_cmi",
+    src           = "cstubs_generate_c.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        "//src/ctypes:Ctypes_cmi",
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_generate_ml",
+    struct        = "cstubs_generate_ml.ml",
+    sig           = ":Cstubs_generate_ml_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Cstubs_analysis",
+        ":Cstubs_errors",
+        ":Cstubs_public_name",
+        ":Ctypes_path"
+    ],
+)
+
+ocaml_signature(
+    name          = "Cstubs_generate_ml_cmi",
+    src           = "cstubs_generate_ml.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        "//src/ctypes:Ctypes_cmi",
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_inverted",
+    struct        = "cstubs_inverted.ml",
+    sig           = ":Cstubs_inverted_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Cstubs_generate_c",
+        ":Cstubs_generate_ml"
+    ],
+)
+
+ocaml_signature(
+    name          = "Cstubs_inverted_cmi",
+    src           = "cstubs_inverted.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        "//src/ctypes:Ctypes_cmi",
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_public_name",
+    struct        = "cstubs_public_name.ml",
+    sig           = ":Cstubs_public_name_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_path"
+    ],
+)
+
+ocaml_signature(
+    name          = "Cstubs_public_name_cmi",
+    src           = "cstubs_public_name.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        "//src/ctypes:Ctypes_primitive_types_cmi",
+        ":Ctypes_path"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_structs",
+    struct        = "cstubs_structs.ml",
+    sig           = ":Cstubs_structs_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        "@ocaml//lib/str", # silence 5.0 layout warning
+       "//src/ctypes:Ctypes_primitive_types",
+        ":Cstubs_c_language",
+        ":Cstubs_public_name",
+        ":Ctypes_path"
+    ],
+)
+
+ocaml_signature(
+    name          = "Cstubs_structs_cmi",
+    src           = "cstubs_structs.mli",
+    opts          = OPTS_SIG,
+    deps          = [
+        "//src/ctypes:Ctypes_types_cmi"
+    ]
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_path",
+    struct        = "ctypes_path.ml",
+    sig           = ":Ctypes_path_cmi",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "@ocaml//lib/str", # silence 5.0 layout warning
+    ]
+)
+
+ocaml_signature(
+    name          = "Ctypes_path_cmi",
+    src           = "ctypes_path.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_c_language",
+    struct        = "cstubs_c_language.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        "//src/ctypes:Ctypes",
+        "//src/ctypes:Ctypes_static",
+        ":Cstubs_errors"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_emit_c",
+    struct        = "cstubs_emit_c.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        # Warning 58 [no-cmx-file] for Signed
+        "@integers//lib/integers",
+        ":Cstubs_c_language"
+    ],
+)
+

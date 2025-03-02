@@ -1,0 +1,518 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_module",
+     "ocaml_library",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+DEPS = ["@integers//lib/integers"]
+
+##############
+ocaml_library(
+    name     = "libCtypes",
+    manifest   = [
+        ":ComplexL",
+        ":Cstubs_internals",
+        ":Ctypes",
+        ":Ctypes_bigarray",
+        ":Ctypes_bigarray_stubs",
+        ":Ctypes_coerce",
+        ":Ctypes_memory",
+        ":Ctypes_memory_stubs",
+        ":Ctypes_primitive_types",
+        # ":Ctypes_primitives",
+        ":Ctypes_ptr",
+        ":Ctypes_roots_stubs",
+        ":Ctypes_static",
+        ":Ctypes_std_view_stubs",
+        ":Ctypes_std_views",
+        ":Ctypes_structs",
+        ":Ctypes_structs_computed",
+        ":Ctypes_type_printing",
+        ":Ctypes_value_printing",
+        ":Ctypes_value_printing_stubs",
+        ":LDouble",
+        ":PosixTypes",
+        ":Ctypes_types_cmi"
+    ],
+    cc_deps = [
+        # ":ctypes.stubs"
+    ]
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "ComplexL",
+    struct        = "complexL.ml",
+    sig           = ":ComplexL_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":LDouble"
+    ],
+)
+
+ocaml_signature(
+    name          = "ComplexL_cmi",
+    src           = "complexL.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":LDouble_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Cstubs_internals",
+    struct        = "cstubs_internals.ml",
+    sig           = ":Cstubs_internals_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":ComplexL",
+        ":Ctypes",
+        ":Ctypes_bigarray",
+        ":Ctypes_memory_stubs",
+        ":Ctypes_primitive_types",
+        ":Ctypes_ptr",
+        ":Ctypes_static",
+        ":LDouble"
+    ],
+)
+
+ocaml_signature(
+    name          = "Cstubs_internals_cmi",
+    src           = "cstubs_internals.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        "@integers//lib/integers",
+        ":Ctypes_cmi",
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes",
+    struct        = "ctypes.ml",
+    sig           = ":Ctypes_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_coerce",
+        ":Ctypes_memory",
+        ":Ctypes_std_views",
+        ":Ctypes_structs_computed",
+        ":Ctypes_type_printing",
+        ":Ctypes_value_printing",
+        ":Ctypes_static"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_cmi",
+    src           = "ctypes.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":Ctypes_static_cmi",
+        ":Ctypes_types_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_bigarray",
+    struct        = "ctypes_bigarray.ml",
+    sig           = ":Ctypes_bigarray_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        "@bigarray-compat//lib/bigarray-compat",
+        ":Ctypes_bigarray_stubs",
+        ":Ctypes_memory_stubs",
+        ":Ctypes_primitive_types",
+        ":Ctypes_ptr",
+        ":Ctypes_primitives"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_bigarray_cmi",
+    src           = "ctypes_bigarray.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        "@bigarray-compat//lib/bigarray-compat",
+        ":Ctypes_primitive_types_cmi",
+        ":Ctypes_ptr",
+        ":Ctypes_memory_stubs"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_coerce",
+    struct        = "ctypes_coerce.ml",
+    sig           = ":Ctypes_coerce_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_primitive_types",
+        ":Ctypes_ptr",
+        ":Ctypes_type_printing",
+        ":Ctypes_static"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_coerce_cmi",
+    src           = "ctypes_coerce.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":Ctypes_static_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_primitive_types",
+    struct        = "ctypes_primitive_types.ml",
+    sig           = ":Ctypes_primitive_types_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  DEPS + [
+        ":ComplexL",
+        ":LDouble"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_primitive_types_cmi",
+    src           = "ctypes_primitive_types.mli",
+    opts          = OPTS_SIG,
+    deps          = DEPS + [
+        ":ComplexL_cmi",
+        ":LDouble_cmi"
+    ],
+)
+
+#############
+# WARNINGS: src file ctypes_primitives.ml is supposed
+# to be generated, but that requires dune,
+# so this file is copied from the ctypes opam installation.
+# (for now)
+ocaml_module(
+    name          = "Ctypes_primitives",
+    module_name   = "Ctypes_primitives",
+    struct        = select({
+        "@platforms//os:macos": "ctypes_primitives.macos_arm.ml",
+        "//conditions:default": "ctypes_primitives.default.ml"
+    }),
+    opts          = OPTS_MODULE,
+    deps          =  DEPS + [
+        ":Ctypes_primitive_types"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_static",
+    struct        = "ctypes_static.ml",
+    sig           = ":Ctypes_static_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":ComplexL",
+        ":Ctypes_bigarray",
+        ":Ctypes_primitive_types",
+        ":Ctypes_ptr",
+        ":LDouble"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_static_cmi",
+    src           = "ctypes_static.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":ComplexL_cmi",
+        ":Ctypes_bigarray_cmi",
+        ":Ctypes_primitive_types_cmi",
+        ":LDouble_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_structs",
+    struct        = "ctypes_structs.ml",
+    sig           = ":Ctypes_structs_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_static"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_structs_cmi",
+    src           = "ctypes_structs.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":Ctypes_static_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_structs_computed",
+    struct        = "ctypes_structs_computed.ml",
+    sig           = ":Ctypes_structs_computed_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_static",
+        ":Ctypes_structs"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_structs_computed_cmi",
+    src           = "ctypes_structs_computed.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":Ctypes_static_cmi",
+        ":Ctypes_structs_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_type_printing",
+    struct        = "ctypes_type_printing.ml",
+    sig           = ":Ctypes_type_printing_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_bigarray",
+        ":Ctypes_static"
+    ],
+)
+
+ocaml_signature(
+    name          = "Ctypes_type_printing_cmi",
+    src           = "ctypes_type_printing.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":Ctypes_static_cmi"
+    ],
+)
+
+################
+ocaml_signature(
+    name          = "Ctypes_types_cmi",
+    src           = "ctypes_types.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        "@integers//lib/integers",
+        ":ComplexL_cmi",
+        ":Ctypes_static_cmi",
+        ":LDouble_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "LDouble",
+    struct        = "lDouble.ml",
+    sig           = ":LDouble_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "LDouble_cmi",
+    src           = "lDouble.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "PosixTypes",
+    struct        = "posixTypes.ml",
+    sig           = ":PosixTypes_cmi",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_static",
+        ":Ctypes_std_views",
+        ":Ctypes"
+    ],
+)
+
+ocaml_signature(
+    name          = "PosixTypes_cmi",
+    src           = "posixTypes.mli",
+    opts          = OPTS_SIG,
+    deps          =  [
+        ":Ctypes_cmi"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_bigarray_stubs",
+    struct        = "ctypes_bigarray_stubs.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "@bigarray-compat//lib/bigarray-compat",
+        ":Ctypes_ptr"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_memory",
+    struct        = "ctypes_memory.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ## Warning 58 [no-cmx-file] for Bigarray_compat
+        "@bigarray-compat//lib/bigarray-compat",
+        ":Ctypes_bigarray",
+        ":Ctypes_memory_stubs",
+        ":Ctypes_ptr",
+        ":Ctypes_roots_stubs",
+        ":Ctypes_static"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_memory_stubs",
+    struct        = "ctypes_memory_stubs.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_primitive_types",
+        ":Ctypes_ptr"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_ptr",
+    struct        = "ctypes_ptr.ml",
+    opts          = OPTS_MODULE,
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_roots_stubs",
+    struct        = "ctypes_roots_stubs.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_ptr"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_std_view_stubs",
+    struct        = "ctypes_std_view_stubs.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_memory_stubs",
+        ":Ctypes_ptr",
+        ":Ctypes_static"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_std_views",
+    struct        = "ctypes_std_views.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_coerce",
+        ":Ctypes_memory",
+        ":Ctypes_memory_stubs",
+        ":Ctypes_ptr",
+        ":Ctypes_static",
+        ":Ctypes_std_view_stubs",
+        ## Warning 58 [no-cmx-file] for Signed, Unsigned
+        "@integers//lib/integers"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_value_printing",
+    struct        = "ctypes_value_printing.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_memory",
+        ":Ctypes_ptr",
+        ":Ctypes_static",
+        ":Ctypes_type_printing",
+        ":Ctypes_value_printing_stubs"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Ctypes_value_printing_stubs",
+    struct        = "ctypes_value_printing_stubs.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ctypes_primitive_types",
+        ":Ctypes_ptr"
+    ],
+)
+
+################################################################
+cc_library(
+    name = "ctypes.stubs",
+    linkstatic = True,
+    srcs = [
+        "complex_stubs.c",
+        "ctypes_bigarrays.c",
+        "ctypes_roots.c",
+        "ldouble_stubs.c",
+        "managed_buffer_stubs.c",
+        "posix_types_stubs.c",
+        "raw_pointer_stubs.c",
+        "type_info_stubs.c"
+    ],
+    hdrs = [
+        "cstubs_internals.h",
+        "ctypes_complex_compatibility.h",
+        "ctypes_complex_stubs.h",
+        "ctypes_cstubs_internals.h",
+        "ctypes_ldouble_stubs.h",
+        "ctypes_managed_buffer_stubs.h",
+        "ctypes_primitives.h",
+        "ctypes_raw_pointer.h",
+        "ctypes_type_info_stubs.h",
+    ],
+    # includes = ["."],
+    deps = [
+        "@ocaml//lib/sdk",
+        "@integers//lib/integers",
+        "@integers//lib/integers:hdrs"
+    ],
+    # copts = ["-I", "external/ocaml/c"]
+)
+
+################
+# (rule
+#  (with-stdout-to
+#   ctypes_primitives.ml
+#   (run ../configure/gen_c_primitives.exe)))
+
+## this won't work, dune can't figure out root
+# genrule(
+#     name = "genprims",
+#     outs = ["ctypes_primitives.ml"],
+#     tools = [
+#         "@ocaml//bin:dune",
+#         "//src/configure:gen_c_primitives"
+#     ],
+#     cmd   = " ".join([
+#         "$(execpath @ocaml//bin:dune) exec",
+#         "$(location //src/configure:gen_c_primitives);",
+#         # "cp -v date_generated.ml $(RULEDIR)/"
+#     ])
+# )

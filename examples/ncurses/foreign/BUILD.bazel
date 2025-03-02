@@ -1,0 +1,45 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "libForeign",
+    manifest   = [
+        ":Ncurses",
+        ":Ncurses_cmd"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Ncurses",
+    struct        = "ncurses.ml",
+    sig           = ":Ncurses_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Ncurses_cmi",
+    src           = "ncurses.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "Ncurses_cmd",
+    struct        = "ncurses_cmd.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Ncurses"
+    ],
+)
+

@@ -1,0 +1,31 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+
+##############
+ocaml_library(
+    name     = "libStub_generation",
+    manifest   = [
+        ":Fts_cmd",
+        ":Fts_if"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Fts_cmd",
+    struct        = "fts_cmd.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Fts_if"
+    ],
+)
+
+#############
+ocaml_module(
+    name          = "Fts_if",
+    struct        = "fts_if.ml",
+    opts          = OPTS_MODULE,
+)
+

@@ -1,0 +1,22 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+
+
+##############
+ocaml_library(
+    name     = "libTest_callback_lifetime",
+    manifest   = [
+        ":Test_callback_lifetime"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Test_callback_lifetime",
+    struct        = "test_callback_lifetime.ml",
+    opts          = OPTS_MODULE,
+)
+

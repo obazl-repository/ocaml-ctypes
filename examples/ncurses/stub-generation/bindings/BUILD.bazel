@@ -1,0 +1,20 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+
+##############
+ocaml_library(
+    name     = "libBindings",
+    manifest   = [
+        ":Ncurses_bindings"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Ncurses_bindings",
+    struct        = "ncurses_bindings.ml",
+    opts          = OPTS_MODULE,
+)
+

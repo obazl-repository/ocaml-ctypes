@@ -1,0 +1,40 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "libForeign",
+    manifest   = [
+        ":Date"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Date",
+    struct        = "date.ml",
+    sig           = ":Date_cmi",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "@ctypes//lib/ctypes",
+        "@ctypes-foreign//lib/ctypes-foreign"
+    ]
+)
+
+ocaml_signature(
+    name          = "Date_cmi",
+    src           = "date.mli",
+    opts          = OPTS_SIG,
+    deps          = ["@ctypes//lib/ctypes"]
+)
+

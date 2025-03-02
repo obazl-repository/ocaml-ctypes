@@ -1,0 +1,33 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+# load("@bazel_skylib//rules:build_test.bzl", "build_test")
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+# ##############
+# ocaml_library(
+#     name     = "libTests_common",
+#     manifest   = [
+#         ":Tests_common"
+#     ],
+# )
+
+#############
+ocaml_module(
+    name          = "Tests_common",
+    struct        = "tests_common.ml",
+    opts          = OPTS_MODULE,
+    deps          = [
+        "//src/ctypes",  # @ctypes//lib/ctypes
+        "//src/cstubs",  # @ctypes//lib/stubs
+        "//src/ctypes-foreign"
+    ]
+)
+

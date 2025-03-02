@@ -1,0 +1,22 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+
+
+##############
+ocaml_library(
+    name     = "libTest_oo_style",
+    manifest   = [
+        ":Test_oo_style"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Test_oo_style",
+    struct        = "test_oo_style.ml",
+    opts          = OPTS_MODULE,
+)
+

@@ -1,0 +1,60 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl",
+     "cc_binary",
+     "cc_library",
+     # "cc_shared_library"
+     )
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_library",
+     "ocaml_module",
+     "ocaml_signature",
+)
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "test_functions",
+    archived = True,
+    manifest = [":Test_functions"], # empty
+    # cc_deps  = {":test_funcs": "static"}
+)
+
+ocaml_module(
+    name   = "Test_functions",
+    struct = "test_functions.ml",
+    cc_deps  = [":test_funcs"]
+)
+
+################################################################
+cc_library(
+    name = "test_funcs",
+    linkstatic = True,
+    srcs = ["test_functions.c"],
+    hdrs = ["test_functions.h"],
+    implementation_deps = [
+        "@ocaml//lib/sdk",
+        "//src/ctypes:ctypes.stubs"
+    ],
+    copts = ["-Isrc/ctypes", "-pthread"]
+)
+
+cc_binary(
+    name = "clib.so",
+    linkshared = True,
+    srcs = ["test_functions.c",
+            "test_functions.h"],
+    deps = [
+        "@ocaml//lib/sdk",
+        "//src/ctypes:ctypes.stubs"
+    ],
+    copts = ["-Isrc/ctypes", "-pthread"]
+)
+
+cc_shared_library(
+    name = "clib",
+    shared_lib_name = "clib.so",
+    deps = [":test_funcs"]
+)

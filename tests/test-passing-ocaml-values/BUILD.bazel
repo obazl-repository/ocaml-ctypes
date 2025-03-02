@@ -1,0 +1,22 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+
+
+##############
+ocaml_library(
+    name     = "libTest_passing_ocaml_values",
+    manifest   = [
+        ":Test_passing_ocaml_values"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Test_passing_ocaml_values",
+    struct        = "test_passing_ocaml_values.ml",
+    opts          = OPTS_MODULE,
+)
+

@@ -1,0 +1,45 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_ocaml//build:rules.bzl",
+     "ocaml_module",
+     "ocaml_signature",
+)
+
+OPTS_SIG    = []
+OPTS_MODULE = []
+
+##############
+ocaml_library(
+    name     = "libForeign",
+    manifest   = [
+        ":Fts",
+        ":Fts_cmd"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Fts",
+    struct        = "fts.ml",
+    sig           = ":Fts_cmi",
+    opts          = OPTS_MODULE,
+)
+
+ocaml_signature(
+    name          = "Fts_cmi",
+    src           = "fts.mli",
+    opts          = OPTS_SIG,
+)
+
+#############
+ocaml_module(
+    name          = "Fts_cmd",
+    struct        = "fts_cmd.ml",
+    opts          = OPTS_MODULE,
+    deps          =  [
+        ":Fts"
+    ],
+)
+

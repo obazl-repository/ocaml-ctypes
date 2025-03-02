@@ -1,0 +1,22 @@
+## GENERATED FILE - do not edit
+package(default_visibility = ["//visibility:public"])
+
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+
+
+##############
+ocaml_library(
+    name     = "libTest_lwt_preemptive",
+    manifest   = [
+        ":Test_lwt_jobs"
+    ],
+)
+
+######################## Modules & Signatures ########################
+#############
+ocaml_module(
+    name          = "Test_lwt_jobs",
+    struct        = "test_lwt_jobs.ml",
+    opts          = OPTS_MODULE,
+)
+
